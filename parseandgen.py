@@ -43,7 +43,6 @@ def add_columns(dataframe, columns):
     return dataframe
 
 #for the percentage columns, the function should make the data cumulative
-@timer
 def make_cumulative(data):
     for key in data:
         if "%" in key:
@@ -89,9 +88,7 @@ def merge_dataframes(left, right):
 
 def main():
     people_df = create_dataframe(people)
-    print(people_df)
     vegtables_cum = make_cumulative(vegtables)
-    print(random_item(vegtables_cum))
     generated_data = create_random_dataframe(people, vegtables_cum)
     final_df = merge_dataframes(people_df, generated_data)
     print(final_df)
