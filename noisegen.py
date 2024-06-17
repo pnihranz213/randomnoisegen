@@ -13,53 +13,22 @@ def timer(func):
         return result
     return wrapper
 
-#function turns dictionary into a dataframe
-def create_dataframe(data):
-    return pd.DataFrame(data)
+#function determines if there is a percentage in the string
+def percent_in_string(string):
+    if "%" in string:
+        return True
+    else:
+        return False
 
-#function finds all the keys in vegtables that do not have the % character in them
-def find_keys_without_percent(data):
-    return [key for key in data if "%" not in key]
+#function finds all the columns in vegtables df that do not have the % character in them
+def find_columns_without_percent(data: pd.DataFrame):
+    return [columns for columns in data.columns if not percent_in_string(columns)]
 
 #function adds new columns to dataframe based on a list
 def add_columns(dataframe, columns):
     for column in columns:
         dataframe[column] = None
-    return dataframe
-
-#for the percentage columns, the function should make the data cumulative
-@timer
-def make_cumulative(data):
-    for key in data:
-        if "%" in key:
-            cumsum = 0
-            cumsum_values = []
-            for value in data[key]:
-                cumsum += int(value*100)
-                cumsum_values.append(cumsum)
-            data[key] = cumsum_values
-    return data
-
-#gives a number from 1 to 100
-def generate_random_percent():
-    return random.randint(1, 100)
-
-def random_item(data):
-    new_values = []
-    for key in data:
-        if "%" in key:
-            for index, value in enumerate(data[key]):
-                num = generate_random_percent()
-                if index == 0:
-                    if num >= 0 and num <= value:
-                        new_values.append(data[key.replace(' %','')][index])
-                        break
-                if num >0 and data[key][index-1] and num <= value:
-                    new_values.append(data[key.replace(' %','')][index])
-                    break
-                else:
-                    continue
-    return new_values     
+    return dataframe    
 
 #using the function random_item, create a dataframe the length of the people dictionary that contains the random item from the vegtables dictionary and has headers equal to the keys in the vegtables dictionary that do not have the % character in them
 def create_random_dataframe(people, vegtables):
